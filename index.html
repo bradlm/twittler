@@ -15,7 +15,6 @@
   </head>
   <body>
     <script>
-
       $(document).ready(function(){
         var $body = $('body'),
         archive = [],
@@ -31,7 +30,6 @@
             function appendShow (tweet) {
               $tweet.appendTo($body).show('fast', () => {
                 archive.push(tweet);
-                scrollToBottom();
                 recursiveDisplay();
               })
             }
@@ -60,8 +58,6 @@
           }).call(this);
         }).call(this);
 
-
-
         $('body').on('click', '.user', function () {
           if(show) {
             show = false,
@@ -71,7 +67,6 @@
             show = true;
             $('.tweet').filter('.tweet:not(' + targetUser + ')').show()
             targetUser = '';
-            scrollToBottom();
           }
 
         })
@@ -79,28 +74,10 @@
         setInterval(function() {
           var timeIndex = $('.time').each(function() {
             let date = new Date($(this).attr('data'));
-            console.log(moment(date).fromNow())
             $(this).text(moment(date).fromNow())
           });
-
-
-/*
-
-          console.log($(this))
-          console.log(timeIndex.attr('data'));//.get(0))//[0].attributes.data.value)
-          for(var i = 0; i < timeIndex.length; i++) {
-           // console.log(timeIndex)
-            let date = timeIndex.get(i);//.attr('data');
-            //console.log(date.attr('data'))
-            //timeIndex[item].textContent = moment(date).fromNow();
-          }*/
-          scrollToBottom();
         },10000);
-
       });
-      function scrollToBottom() {
-        $('html, body').animate({scrollTop: $(document).height()}, 'slow')
-      }
     </script>
   </body>
 </html>
