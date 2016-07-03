@@ -11,14 +11,14 @@
         var $body = $('body');
         $body.html('');
         var archive = [];
+
         (function displayTweet () {
           let tempStream = streams.home.reverse();
           streams.home = [];
           (function recursiveDisplay () {
             if(tempStream.length > 0) {
               let tweet = tempStream.pop();
-              $tweet = $('<div></div>').hide();
-              $tweet.text('@' + tweet.user + ': ' + tweet.message + ' [' + tweet.created_at.formatted + ']');
+              $tweet = $('<div>' + '<a href=\'#\' class=\'tweet ' + tweet.user +'\'>' + '@' + tweet.user + '</a>: ' + tweet.message + ' [' + tweet.created_at.formatted + ']' + '</div>').hide();
               $tweet.appendTo($body).show('fast', () => {
                 archive.push(tweet);
                 recursiveDisplay();
@@ -27,6 +27,11 @@
               setTimeout(displayTweet, 400)}
           }).call(this);
         }).call(this);
+
+
+
+
+
       });
 
     </script>
