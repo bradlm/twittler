@@ -11,18 +11,16 @@
         var $body = $('body');
         $body.html('');
         var displayTweet = () => {
-          var index = streams.home.length - 1;
-          while(index >= 0) {
-            var tweet = streams.home[index],
-            $tweet = $('<div></div>');
+          console.log(streams.home, streams.home.length)
+          streams.home.forEach((tweet, index)=> {
+            $tweet = $('<div></div>').hide();
             $tweet.text('@' + tweet.user + ': ' + tweet.message + ' [' + tweet.created_at.formatted + ']');
-            $tweet.appendTo($body);
-            index -= 1;
-          }
+            $tweet.appendTo($body).show('normal');
+          })
         }
 
         displayTweet()
-        setInterval(displayTweet, 2000)
+        setInterval(displayTweet, 500)
       });
 
     </script>
