@@ -9,17 +9,18 @@
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html(''),
-        displayTweet = () => {
+        $body.html('');
+        var displayTweet = () => {
           var index = streams.home.length - 1;
-          while(index >= 0){
+          while(index >= 0) {
             var tweet = streams.home[index],
             $tweet = $('<div></div>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' [' +tweet.created_at.formatted + ']');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' [' + tweet.created_at.formatted + ']');
             $tweet.appendTo($body);
             index -= 1;
           }
         }
+
         displayTweet()
         setInterval(displayTweet, 2000)
       });
