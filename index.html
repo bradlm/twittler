@@ -3,32 +3,76 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <style> 
+      .user {
+        color: blue;
+      }
+      .tweet {
+      }
+      }
+    </style>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
+        var $body = $('body'),
+        archive = [],
+        show = true,
+        targetUser = '';
         $body.html('');
-        var archive = [];
 
         (function displayTweet () {
           let tempStream = streams.home.reverse();
           streams.home = [];
+          
           (function recursiveDisplay () {
-            if(tempStream.length > 0) {
-              let tweet = tempStream.pop();
-              $tweet = $('<div>' + '<a href=\'#\' class=\'tweet ' + tweet.user +'\'>' + '@' + tweet.user + '</a>: ' + tweet.message + ' [' + tweet.created_at.formatted + ']' + '</div>').hide();
+            function appendShow (tweet) {
               $tweet.appendTo($body).show('fast', () => {
                 archive.push(tweet);
                 recursiveDisplay();
-              });
+              })
+            }
+            function appendHide (tweet) {
+              $tweet.appendTo($body).hide(() => {
+                archive.push(tweet);
+                recursiveDisplay();
+              })
+            }
+            if(tempStream.length > 0) {
+              let tweet = tempStream.pop();
+              $tweet = $('<div class=\'tweet\' id=\'' + tweet.user + '\' data=\'#' + tweet.user +'\'>' + '<span class=\'user\'>' + '@' + tweet.user + '</span>: ' + tweet.message + ' [' + tweet.created_at.formatted + ']' + '</div>').hide();
+              if(show) {
+                appendShow(tweet)
+              } else if(targetUser) {
+                if(tweet.user === targetUser.slice(1, targetUser.length)) {
+                  appendShow(tweet)
+                } else {
+                  appendHide(tweet)
+                }
+              } else {
+                appendHide(tweet)
+              }
             } else {
               setTimeout(displayTweet, 400)}
           }).call(this);
         }).call(this);
 
 
+
+        $('body').on('click', '.user', function () {
+          console.log('pass')
+          if(show) {
+            show = false,
+            targetUser = $(this).closest('.tweet').attr('data');
+            $('.tweet').filter('.tweet:not(' + targetUser + ')').hide()
+          } else {
+            show = true;
+            $('.tweet').filter('.tweet:not(' + targetUser + ')').show()
+            targetUser = '';
+          }
+
+        })
 
 
 
