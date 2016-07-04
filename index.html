@@ -4,23 +4,44 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <script src="moment.js"></script>
-    <style> 
+    <style>
+      #fixed-div {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: blue;
+        color: white;
+        height: 50px;
+      } 
+      #tweets {
+        
+      }
       .user {
         color: blue;
       }
       .tweet {
       }
+      .time {
+        color: gray;
+        font-size: 12px;
+      }
+      .date {
+        color: gray;
+        font-size: 8px;
       }
     </style>
   </head>
   <body>
+    <div id='fixed-div'> asdf<br>13342<br>123</div>
+    <div id='tweets'></div>
     <script>
       $(document).ready(function(){
         var $body = $('body'),
         archive = [],
         show = true,
         targetUser = '';
-        $body.html('');
+       //$body.html('');
 
         (function displayTweet () {
           let tempStream = streams.home.reverse();
@@ -28,20 +49,20 @@
           
           (function recursiveDisplay () {
             function appendShow (tweet) {
-              $tweet.appendTo($body).show('fast', () => {
+              $tweet.appendTo('#tweets').show('fast', () => {
                 archive.push(tweet);
                 recursiveDisplay();
               })
             }
             function appendHide (tweet) {
-              $tweet.appendTo($body).hide(() => {
+              $tweet.appendTo('#tweets').hide(() => {
                 archive.push(tweet);
                 recursiveDisplay();
               })
             }
             if(tempStream.length > 0) {
               let tweet = tempStream.pop();
-              $tweet = $('<div class=\'tweet\' id=\'' + tweet.user + '\' data=\'#' + tweet.user +'\'>' + '<span class=\'user\'>' + '@' + tweet.user + '</span> (<span class=\'time\' data=\'' + tweet.created_at.unformatted + '\'>just now</span>): ' + tweet.message + ' [' + tweet.created_at.formatted + ']' + '</div>').hide();
+              $tweet = $('<div class=\'tweet\' id=\'' + tweet.user + '\' data=\'#' + tweet.user +'\'>' + '<span class=\'user\'>' + '@' + tweet.user + '</span> <span class=\'time\' data=\'' + tweet.created_at.unformatted + '\'>(just now)</span>: ' + tweet.message + ' <span class=\'date\'>[' + tweet.created_at.formatted + ']</span>' + '</div>').hide();
               if(show) {
                 appendShow(tweet)
               } else if(targetUser) {
@@ -74,7 +95,7 @@
         setInterval(function() {
           var timeIndex = $('.time').each(function() {
             let date = new Date($(this).attr('data'));
-            $(this).text(moment(date).fromNow())
+            $(this).text('(' + moment(date).fromNow() + ')')
           });
         },10000);
       });
