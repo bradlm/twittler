@@ -16,7 +16,7 @@ window.users = Object.keys(streams.users);
 // utility function for adding tweets to our data structures
 var addTweet = function(newTweet){
   var username = newTweet.user;
-  streams.users[username].push(newTweet);
+  //streams.users[username].push(newTweet); did not use streams.users 
   streams.home.push(newTweet);
 };
 
@@ -36,17 +36,18 @@ var tags = ['#techlife', '#burningman', '#sf', 'but only i know how', 'for real'
 var randomMessage = function(){
   return [randomElement(opening), randomElement(verbs), randomElement(objects), randomElement(nouns), randomElement(tags)].join(' ');
 };
-
-// generate random tweets on a random schedule
-var generateRandomTweet = function(){
-  var tweet = {};
-  var getDate = inputDate => { //gets timestamp and returns in format 'hh:mm tmz mm/dd/yy'
+//function for getting a formatted date
+function getDate (inputDate){ //gets timestamp and returns in format 'hh:mm tmz mm/dd/yy'
     let date = inputDate.toUTCString().split(' '); 
     let data = {'Jan': '1', 'Feb': '2', 'Mar': '3', 'Apr': '4', 'May': '5', 'Jun': '6', 
             'Jul': '7', 'Aug': '8', 'Sep': '9', 'Oct': '10', 'Nov': '11', 'Dec': '12'};
     return (date[4][0] === '0' ? date[4].slice(1,5) : date[4].slice(0,5)) + ' ' + date[5] + ' ' +//GMT time
             data[date[2]] + '/' + date[1] + '/' + date[3].slice(2,4);  //date
-  };
+  }
+
+// generate random tweets on a random schedule
+var generateRandomTweet = function(){
+  var tweet = {};
   tweet.user = randomElement(users);
   tweet.message = randomMessage();
   tweet.created_at = {unformatted: new Date(), formatted: getDate(new Date())};
