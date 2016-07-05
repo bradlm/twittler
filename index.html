@@ -14,8 +14,7 @@
         padding: 5px 5px 5px 5px;
       } 
       #tweets {
-        margin-top:100px;
-        position:fixed;
+        margin-top:120px;
         left: 0px;
         right:0px;
       }
@@ -43,12 +42,6 @@
     </style>
   </head>
   <body>
-    <div id='fixed-div' class='standard-border standard-background'>
-      <h3>Twittler</h3>
-      <input type='text' id='textinput' placeholder='What would you like to tweet?' style='width:60%'/> <button onclick='send()'>Tweet</button>
-
-    </div>
-    <div id='tweets' class='standard-background'></div>
     <script>
       $(document).ready(function(){
         var username = ' ';
@@ -113,8 +106,22 @@
           });
         },10000);
 
-        
+        document.getElementById('send-button').onclick = function() {
+          var userTweet = {
+            user: username,
+            message: document.getElementById('textinput').value,
+            created_at: {unformatted: new Date(), formatted: getDate(new Date())}
+          }
+          addTweet(userTweet)
+        }
       });
     </script>
+
+    <div id='fixed-div' class='standard-border standard-background'>
+      <h3>Twittler</h3>
+      <input type='text' id='textinput' placeholder='What would you like to tweet?' style='width:60%'/> <button id='send-button'>Tweet</button>
+
+    </div>
+    <div id='tweets' class='standard-background'></div>
   </body>
 </html>
