@@ -6,6 +6,7 @@
 // set up data structures
 window.streams = {};
 streams.home = [];
+streams.archive = []; //added archive for holding all tweets in order.
 streams.users = {};
 streams.users.shawndrost = [];
 streams.users.sharksforcheap = [];
@@ -16,8 +17,11 @@ window.users = Object.keys(streams.users);
 // utility function for adding tweets to our data structures
 var addTweet = function(newTweet){
   var username = newTweet.user;
-  //streams.users[username].push(newTweet); did not use streams.users 
+  if(!streams.users.hasOwnProperty(username))
+    streams.users[username] = [];
+  streams.users[username].push(newTweet);
   streams.home.push(newTweet);
+  streams.archive.push(newTweet);
 };
 
 // utility function

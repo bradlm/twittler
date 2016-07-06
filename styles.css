@@ -1,0 +1,44 @@
+h1 {
+  font-family: 'Comic Sans MS';
+  color:#ffffff;
+  text-shadow: 2px 2px #000000;
+}
+#fixed-div {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 100px;
+  padding: 5px 5px 5px 5px;
+} 
+#tweets {
+  left: 0px;
+  right:0px;
+}
+#help-div {
+  font-style: italic;
+  margin-top:120px;
+  height: 20px;
+}
+.user {
+  color: blue;
+  cursor: pointer;
+}
+.tweet {
+}
+.time {
+  color: gray;
+  font-size: 12px;
+}
+.date {
+  color: gray;
+  font-size: 8px;
+}
+.standard-border {
+  border-style:groove;
+  border-width: 5px;
+  border-color:white;
+}
+.standard-background {
+  background-color: #99e6ff;
+}

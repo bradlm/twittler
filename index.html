@@ -4,124 +4,15 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <script src="moment.js"></script>
-    <style>
-      #fixed-div {
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        height: 100px;
-        padding: 5px 5px 5px 5px;
-      } 
-      #tweets {
-        margin-top:120px;
-        left: 0px;
-        right:0px;
-      }
-      .user {
-        color: blue;
-      }
-      .tweet {
-      }
-      .time {
-        color: gray;
-        font-size: 12px;
-      }
-      .date {
-        color: gray;
-        font-size: 8px;
-      }
-      .standard-border {
-        border-style:groove;
-        border-width: 5px;
-        border-color:white;
-      }
-      .standard-background {
-        background-color: #99e6ff;
-      }
-    </style>
+    <script src='twittler.js'></script>
+    <link rel='stylesheet' type='text/css' href='styles.css'>
   </head>
   <body>
-    <script>
-      $(document).ready(function(){
-        var username = ' ';
-        while(!/[^\s]+/g.test(username)) {
-          username = prompt('Please provide a username.');
-        }
-        var $body = $('body'),
-        show = true,
-        targetUser = '';
-
-        (function displayTweet () {
-          let tempStream = streams.home.reverse();
-          streams.home = [];
-          
-          (function recursiveDisplay () {
-            function appendShow (tweet) {
-              $tweet.appendTo('#tweets').show('fast', () => {
-                recursiveDisplay();
-              })
-            }
-            function appendHide (tweet) {
-              $tweet.appendTo('#tweets').hide(() => {
-                recursiveDisplay();
-              })
-            }
-            if(tempStream.length > 0) {
-              let tweet = tempStream.pop();
-              $tweet = $('<div class=\'tweet standard-border\' id=\'' + tweet.user + '\' data=\'#' + tweet.user +'\'>' + '<span class=\'user\'>' + '@' + tweet.user + '</span> <span class=\'time\' data=\'' + tweet.created_at.unformatted + '\'>(just now)</span>: ' + tweet.message + ' <span class=\'date\'>[' + tweet.created_at.formatted + ']</span>' + '</div>').hide();
-              if(show) {
-                appendShow(tweet)
-              } else if(targetUser) {
-                if(tweet.user === targetUser.slice(1, targetUser.length)) {
-                  appendShow(tweet)
-                } else {
-                  appendHide(tweet)
-                }
-              } else {
-                appendHide(tweet)
-              }
-            } else {
-              setTimeout(displayTweet, 400)}
-          }).call(this);
-        }).call(this);
-
-        $('body').on('click', '.user', function () {
-          if(show) {
-            show = false,
-            targetUser = $(this).closest('.tweet').attr('data');
-            $('.tweet').filter('.tweet:not(' + targetUser + ')').hide()
-          } else {
-            show = true;
-            $('.tweet').filter('.tweet:not(' + targetUser + ')').show()
-            targetUser = '';
-          }
-
-        })
-
-        setInterval(function() {
-          var timeIndex = $('.time').each(function() {
-            let date = new Date($(this).attr('data'));
-            $(this).text('(' + moment(date).fromNow() + ')')
-          });
-        },10000);
-
-        document.getElementById('send-button').onclick = function() {
-          var userTweet = {
-            user: username,
-            message: document.getElementById('textinput').value,
-            created_at: {unformatted: new Date(), formatted: getDate(new Date())}
-          }
-          addTweet(userTweet)
-        }
-      });
-    </script>
-
     <div id='fixed-div' class='standard-border standard-background'>
-      <h3>Twittler</h3>
+      <h1>Twittler</h1>
       <input type='text' id='textinput' placeholder='What would you like to tweet?' style='width:60%'/> <button id='send-button'>Tweet</button>
-
     </div>
+    <div id='help-div' class='standard-border standard-background'>Click a username to see only their tweets.</div>
     <div id='tweets' class='standard-background'></div>
   </body>
 </html>
