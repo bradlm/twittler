@@ -61,6 +61,10 @@ $(document).ready(function(){
     }
   })
 
+  document.getElementById('latest-button').onclick = function() {
+    $('html,body').animate({scrollTop: $(document).height() }, 'normal')
+  }
+
   setInterval(function() {
     var timeIndex = $('.time').each(function() {
       let date = new Date($(this).attr('data'));
